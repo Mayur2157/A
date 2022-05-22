@@ -1,0 +1,95 @@
+hash_table_w_rep = [None] * 10
+hash_table_wo_rep = [[] for _ in range(10)]
+
+def insertWithReplacement(key, value):
+    hash_key = hash(key) % len(hash_table_w_rep)
+    hash_table_w_rep[hash_key] = value
+
+def insertWithoutReplacement(key, value):
+    hash_key = hash(key) % len(hash_table_wo_rep)
+    key_exists = False
+    bucket = hash_table_wo_rep[hash_key]
+    for i, kv in enumerate(bucket):
+        k, v = kv
+        if key == k:
+            key_exists = True
+            break
+    if key_exists:
+        bucket[i] = (key, value)
+    else:
+        bucket.append((key, value))
+
+def searchWithoutReplacement(hash_table, key):
+    hash_key = hash(key) % len(hash_table)
+    bucket = hash_table[hash_key]
+    for i, kv in enumerate(bucket):
+        k, v = kv
+        if key == k:
+            return v
+
+def deleteWithoutReplacement(hash_table, key):
+    hash_key = hash(key) % len(hash_table)
+    key_exists = False
+    bucket = hash_table[hash_key]
+    for i, kv in enumerate(bucket):
+        k, v = kv
+        if key == k:
+            key_exists = True
+            break
+    if key_exists:
+        del bucket[i]
+        print('Key {} deleted'.format(key))
+    else:
+        print('Key {} not found'.format(key))
+
+def displayMenu():
+    print(f"\n!!!!!!!!!!!!!!! MENU !!!!!!!!!!!!!!!"
+          f"\n1. Insert With Replacement"
+          f"\n2. Insert Without Replacement"
+          f"\n3. Search Element (With Replacement)"
+          f"\n4. Search Element (Without Replacement)"
+          f"\n5. Delete Element (With Replacement)"
+          f"\n6. Delete Element (Without Replacement)"
+          f"\n7. Display Hash Table Elements"
+          f"\n0. Exit")
+
+while True:
+    displayMenu()
+
+    choice = int(input("Enter Your Choice : "))
+
+    if choice == 0:
+        break
+
+    elif choice not in range(1, 8):
+        print("Invalid Choice !")
+
+    elif choice == 1:
+        key_value = int(input("\nEnter key of element : "))
+        element_value = input("Enter value of element : ")
+        insertWithReplacement(key_value,element_value)
+
+    elif choice == 2:
+        key_value = int(input("\nEnter key of element : "))
+        element_value = input("Enter value of element : ")
+        insertWithoutReplacement(key_value,element_value)
+
+    elif choice == 3:
+        print("For search with replacement not define yet ! ")
+
+    elif choice == 4:
+        key_value = int(input("\nEnter key of element : "))
+        print(f"Value = {searchWithoutReplacement(hash_table_wo_rep, key_value)}")
+
+    elif choice == 5:
+        print("For delete with replacement not define yet ! ")
+
+    elif choice == 6:
+        key_value = int(input("\nEnter key of element : "))
+        deleteWithoutReplacement(hash_table_wo_rep,key_value)
+
+    elif choice == 7:
+        print(f"\nHash table for with replacement - {hash_table_w_rep}"
+              f"\nHash table for without replacement - {hash_table_wo_rep}")
+
+print("\n\nThank You !!")
